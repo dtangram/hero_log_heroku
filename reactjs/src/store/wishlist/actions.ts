@@ -119,7 +119,7 @@ export const fetchWishlists = (): APIAction => {
       REQ_WISHLIST_COMICS_SUCCESS,
       REQ_WISHLIST_COMICS_ERROR,
     ],
-    callAPI: () => API.get(`/wishlist/signups/${userId}`),  // ✅ Added /signups
+    callAPI: () => API.get(`/wishlist/signups/${userId}`),  // Added /signups
     shouldCallAPI: (state) => shouldFetchUserWishlists(state, userId),
     payload: { userId },
   };
@@ -148,7 +148,7 @@ export const createWishlist = (wishlist: Omit<WishlistComic, 'id' | 'userId'>): 
   const id = uuidv4();
   const userId = getUserId();
   
-  // ✅ Map userId to wishUsersId for the API
+  // Map userId to wishUsersId for the API
   const apiData = {
     id,
     comicBookTitle: wishlist.comicBookTitle,
@@ -158,10 +158,8 @@ export const createWishlist = (wishlist: Omit<WishlistComic, 'id' | 'userId'>): 
     comicBookPublisher: wishlist.comicBookPublisher,
     comicBookCover: wishlist.comicBookCover,
     type: wishlist.type,
-    wishUsersId: userId,  // ✅ Map userId → wishUsersId
+    wishUsersId: userId,  // Map userId → wishUsersId
   };
-  
-  console.log('📤 Creating wishlist with data:', apiData);
   
   return {
     types: [
@@ -169,7 +167,7 @@ export const createWishlist = (wishlist: Omit<WishlistComic, 'id' | 'userId'>): 
       ADD_WISHLIST_COMIC_SUCCESS,
       ADD_WISHLIST_COMIC_ERROR,
     ],
-    callAPI: () => API.post('/wishlist/', apiData),  // ✅ Send mapped data
+    callAPI: () => API.post('/wishlist/', apiData),  // Send mapped data
     payload: { 
       id,
       wishlist: { id, userId, ...wishlist } as WishlistComic,
@@ -189,10 +187,10 @@ export const updateWishlist = (wishlist: Partial<WishlistComic> & { id: string }
     comicBookPublisher,
     comicBookCover,
     type,
-    userId,  // ✅ Get userId
+    userId,  // Get userId
   } = wishlist;
 
-  // ✅ Map userId to wishUsersId for the API
+  // Map userId to wishUsersId for the API
   const apiData = {
     comicBookTitle: comicBookTitle?.trim(),
     comicIssue: comicIssue?.trim(),
@@ -201,7 +199,7 @@ export const updateWishlist = (wishlist: Partial<WishlistComic> & { id: string }
     comicBookPublisher: comicBookPublisher?.trim(),
     comicBookCover: comicBookCover?.trim(),
     type: type?.trim(),
-    wishUsersId: userId,  // ✅ Map userId → wishUsersId
+    wishUsersId: userId,  // Map userId → wishUsersId
   };
 
   return {
@@ -210,7 +208,7 @@ export const updateWishlist = (wishlist: Partial<WishlistComic> & { id: string }
       UPDATE_WISHLIST_COMIC_SUCCESS,
       UPDATE_WISHLIST_COMIC_ERROR,
     ],
-    callAPI: () => API.put(`/wishlist/${id}`, apiData),  // ✅ Send mapped data
+    callAPI: () => API.put(`/wishlist/${id}`, apiData),  // Send mapped data
     payload: { id },
   };
 };

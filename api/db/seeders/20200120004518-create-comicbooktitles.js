@@ -21,9 +21,9 @@ module.exports = {
         ],
         {}
       );
-      console.log('✅ ComicBookTitle "Superman" created');
+      console.log('ComicBookTitle "Superman" created');
     } else {
-      console.log('ℹ️  ComicBookTitle "Superman" already exists, skipping...');
+      console.log('  ComicBookTitle "Superman" already exists, skipping...');
     }
   },
 

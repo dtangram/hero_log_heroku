@@ -36,7 +36,7 @@ import CollectionInsights from './components/collectionInsights';
 
 const App = () => {
   useEffect(() => {
-    console.log('🚀 APP MOUNTED - Initializing user session');
+    console.log('APP MOUNTED - Initializing user session');
     
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('id');
@@ -48,8 +48,8 @@ const App = () => {
       userId !== 'undefined';
     
     if (isAuthenticated) {
-      console.log('✅ User is authenticated with ID:', userId);
-      // ✅ Clear anonymous ID if it exists
+      console.log('User is authenticated with ID:', userId);
+      // Clear anonymous ID if it exists
       const anonymousId = localStorage.getItem('anonymousUserId');
       if (anonymousId) {
         console.log('🗑️ Removing stale anonymous ID');
@@ -57,7 +57,7 @@ const App = () => {
       }
     } else {
       console.log('📝 No authenticated user, creating anonymous ID');
-      // ✅ Only call this if NOT authenticated
+      // Only call this if NOT authenticated
       getAnonymousUserId();
     }
   }, []);

@@ -22,8 +22,8 @@ interface RootState {
       [key: string]: SignupState;
     };
     currentId?: string;
-    isLoading: boolean;  // ✅ Add this
-    error: string | null;  // ✅ Add this
+    isLoading: boolean;  // Add this
+    error: string | null;  // Add this
   };
 }
 
@@ -46,9 +46,9 @@ const mapStateToProps = (state: RootState) => {
   
   return { 
     signup,
-    signupId: currentId,  // ✅ Expose signup ID (will be set on success)
-    signupError: error,  // ✅ Expose error
-    isLoading,  // ✅ Expose loading state
+    signupId: currentId,  // Expose signup ID (will be set on success)
+    signupError: error,  // Expose error
+    isLoading,  // Expose loading state
   };
 };
 

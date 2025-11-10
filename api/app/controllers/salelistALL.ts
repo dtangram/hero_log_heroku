@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import db from '../models';  // ✅ Import db
+import db from '../models';  // Import db
 
 // Sale list type literal
 type SaleListType = 'regular' | 'variant';
@@ -55,12 +55,12 @@ interface SequelizeError {
   errors: Array<{ message: string }>;
 }
 
-// ✅ Model getter with error handling
+// Model getter with error handling
 const getSaleListModel = (): SaleListModel => {
   const SaleList = (db as any).SaleLists || (db as any).SaleList || (db as any).Salelist;
   
   if (!SaleList) {
-    console.error('❌ SaleList model not found. Available models:', Object.keys(db));
+    console.error('SaleList model not found. Available models:', Object.keys(db));
     throw new Error('SaleList model not loaded');
   }
   
@@ -101,7 +101,7 @@ export const getAllSaleLists = async (
   res: Response<ApiResponse<SaleListAttributes[]>>
 ): Promise<Response> => {
   try {
-    const SaleLists = getSaleListModel();  // ✅ Get model with error handling
+    const SaleLists = getSaleListModel();  // Get model with error handling
     const saleListsInstances = await SaleLists.findAll();
     
     // Convert instances to plain objects

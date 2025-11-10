@@ -103,9 +103,9 @@ interface ComicBookUpdateRequest {
 }
 
 // API response interface
-interface ApiResponse<T = ComicBookAttributes | ComicBookAttributes[]> {
+interface ApiResponse {
   success: boolean;
-  data?: T;
+  data?: {};
   count?: number;
   message?: string;
   error?: string;
@@ -225,9 +225,6 @@ export const getComicBooks = async (
   res: Response<ApiResponse<ComicBookAttributes[]>>
 ): Promise<Response> => {
   const { coboTitleId } = req.params;
-  
-  console.log('GET /comicbook/titles/:coboTitleId');
-  console.log('Comic book title ID:', coboTitleId);
   
   const validation = validateParams(req.params, ['coboTitleId']);
   if (!validation.isValid) {

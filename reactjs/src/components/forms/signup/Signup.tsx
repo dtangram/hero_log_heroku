@@ -25,8 +25,8 @@ interface User {
 interface SignupProps {
   signup: User;
   fetchUser: (id: string) => void;
-  signupId: string | undefined;  // ✅ Add this
-  signupError: string | null; // ✅ Add this
+  signupId: string | undefined;  // Add this
+  signupError: string | null; // Add this
   isLoading: boolean;
   createUser: (payload: {
     firstname: string;
@@ -44,8 +44,8 @@ const MIN_NAME_LENGTH = 2;
 const MIN_PASSWORD_LENGTH = 8;
 const DEFAULT_PROFILE_PIC = 'https://dothanthorntonbucket.s3.amazonaws.com/material-design-account-icon.png';
 
-const Signup = ({ signup, signupId,  // ✅ Add this
-  signupError,  // ✅ Add this
+const Signup = ({ signup, signupId,  // Add this
+  signupError,  // Add this
   isLoading, fetchUser, createUser }: SignupProps) => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
@@ -70,15 +70,15 @@ const Signup = ({ signup, signupId,  // ✅ Add this
 
   useEffect(() => {
     if (signupId) {
-      console.log('✅ Signup successful, redirecting to home');
+      console.log('Signup successful, redirecting to home');
       window.location.href = '/';  // Force reload with auth
     }
   }, [signupId]);
 
-  // ✅ Watch for signup errors - display them
+  // Watch for signup errors - display them
   useEffect(() => {
     if (signupError) {
-      console.log('❌ Signup failed:', signupError);
+      console.log('Signup failed:', signupError);
       setFormErrors(prev => ({
         ...prev,
         email: signupError  // Show error (usually email already exists)

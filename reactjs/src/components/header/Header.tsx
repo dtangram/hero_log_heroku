@@ -39,7 +39,7 @@ useEffect(() => {
   const userId = signins?.id || localStorage.getItem('id');
   
   if (userId) {
-    fetchUserProfile(userId);  // ✅ Pass the userId!
+    fetchUserProfile(userId);  // Pass the userId!
   }
 }, [signins?.id, fetchUserProfile]);
 

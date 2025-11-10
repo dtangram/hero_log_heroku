@@ -34,7 +34,7 @@ export const useComicScanner = () => {
   setScanError('');
 
   try {
-    console.log('🔍 Scanning cover:', imageUrl);
+    console.log('Scanning cover:', imageUrl);
 
     const response = await API.post<ScanResponse>('/ai/scan-comic-cover', {
       imageUrl
@@ -42,33 +42,33 @@ export const useComicScanner = () => {
 
     console.log('📦 Full response:', response);
     console.log('📦 Response data:', response.data);
-    console.log('📦 Success field:', response.data.success);  // ✅ Check this
-    console.log('📦 Data field:', response.data.data);  // ✅ Check this
-    console.log('📦 Type of data:', typeof response.data);  // ✅ Check type
+    console.log('📦 Success field:', response.data.success);  // Check this
+    console.log('📦 Data field:', response.data.data);  // Check this
+    console.log('📦 Type of data:', typeof response.data);  // Check type
 
     // Check what we actually have
     if (response.data && typeof response.data === 'object') {
       // If response.data has success/data wrapper
       if ('success' in response.data && 'data' in response.data) {
         if (response.data.success && response.data.data) {
-          console.log('✅ Scan successful (wrapped):', response.data.data);
+          console.log('Scan successful (wrapped):', response.data.data);
           return response.data.data;
         }
       } 
       // If response.data IS the data (no wrapper)
       else if ('comicBookTitle' in response.data) {
-        console.log('✅ Scan successful (unwrapped):', response.data);
+        console.log('Scan successful (unwrapped):', response.data);
         return response.data as unknown as ScanResult;
       }
     }
     
     const errorMsg = 'Could not parse scan response';
-    console.error('❌ Scan failed:', errorMsg);
+    console.error('Scan failed:', errorMsg);
     setScanError(errorMsg);
     return null;
 
   } catch (error) {
-    console.error('❌ Scan error:', error);
+    console.error('Scan error:', error);
     const errorMsg = error instanceof Error 
       ? error.message 
       : 'Failed to scan cover. Please try again.';

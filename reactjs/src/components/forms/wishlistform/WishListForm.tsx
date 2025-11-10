@@ -304,7 +304,7 @@ const handleScanCover = useCallback(async () => {
       type: result.type || prev.type
     }));
 
-    alert(`✅ Cover scanned! Confidence: ${Math.round(result.confidence * 100)}%\n\nPlease review and edit the auto-filled information.`);
+    alert(`Cover scanned! Confidence: ${Math.round(result.confidence * 100)}%\n\nPlease review and edit the auto-filled information.`);
   }
 }, [formData.comicBookCover, scanCover]);
 

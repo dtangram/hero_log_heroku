@@ -257,7 +257,7 @@ const Signin: React.FC<ConnectorProps> = ({
 
   // Handle form submission
 const handleSubmit = useCallback(
-  async (event: FormEvent<HTMLFormElement>) => {  // ✅ Make it async
+  async (event: FormEvent<HTMLFormElement>) => {  // Make it async
     event.preventDefault();
 
     if (!validateFields()) {
@@ -265,13 +265,13 @@ const handleSubmit = useCallback(
     }
 
     try {
-      // ✅ Await the login action
+      // Await the login action
       await loginUser({
         username: formData.username,
         password: formData.password
       });
 
-      // ✅ Token is now in localStorage after successful login
+      // Token is now in localStorage after successful login
       const token = localStorage.getItem('token');
       
       if (token && token !== 'undefined') {
@@ -281,12 +281,12 @@ const handleSubmit = useCallback(
       } else {
         setTimeout(() => {
           setFormErrors({
-            form: 'Login failed. Please try again.'  // ✅ Changed from validToken to form
+            form: 'Login failed. Please try again.'  // Changed from validToken to form
           });
         }, 3000);
       }
     } catch (error) {
-      // ❌ Login failed - show error
+      // Login failed - show error
       setFormErrors({
         form: error instanceof Error ? error.message : 'Incorrect username and/or password'
       });

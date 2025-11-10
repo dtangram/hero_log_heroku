@@ -3,8 +3,8 @@ import { optionalAuth, AuthRequest  } from '../middleware/auth';
 import * as collectionpublisherCtrl from '../controllers/collectionpublishers';
 import * as validationCtrl from '../controllers/validation';
 
-console.log('🔵 COLLECTION PUBLISHERS ROUTES FILE LOADED');
-console.log('🔵 Current time:', new Date().toISOString());
+console.log('COLLECTION PUBLISHERS ROUTES FILE LOADED');
+console.log('Current time:', new Date().toISOString());
 
 // ============================================================================
 // ROUTER CONFIGURATION
@@ -19,7 +19,7 @@ router.use(optionalAuth);
 // Get collection publishers for authenticated user
 router.get(
   '/',
-  collectionpublisherCtrl.getCollectionPublishers  // ✅ Changed from getAllCollectionPublishers
+  collectionpublisherCtrl.getCollectionPublishers  // Changed from getAllCollectionPublishers
 );
 
 // POST /collectionpublishers/create
@@ -28,12 +28,12 @@ router.post(
   '/create',
   (req: AuthRequest , res: Response, next: NextFunction) => {
     try {
-      console.log('🚀 CREATE ROUTE HIT');
-      console.log('User from token:', req.user);  // ✅ Log authenticated user
+      console.log('CREATE ROUTE HIT');
+      console.log('User from token:', req.user);  // Log authenticated user
       console.log('Body:', req.body);
       next();
     } catch (error) {
-      console.error('❌ MIDDLEWARE ERROR:', error);
+      console.error('MIDDLEWARE ERROR:', error);
       res.status(500).json({ error: 'Middleware failed' });
     }
   },
@@ -43,7 +43,7 @@ router.post(
 
 // TEST ENDPOINT - Remove after debugging
 router.get('/test-logging', (_req: Request, res: Response) => {
-  console.log('🧪 TEST ENDPOINT HIT');
+  console.log('TEST ENDPOINT HIT');
   console.log('Logging is working!');
   return res.json({ message: 'Logging test successful' });
 });
@@ -71,8 +71,8 @@ router.delete(
   collectionpublisherCtrl.removeCollectionPublisher
 );
 
-console.log('🔵 COLLECTION PUBLISHERS ROUTER CONFIGURED');
-console.log('🔵 Router has', router.stack.length, 'routes');
+console.log('COLLECTION PUBLISHERS ROUTER CONFIGURED');
+console.log('Router has', router.stack.length, 'routes');
 
 // ============================================================================
 // EXPORTS

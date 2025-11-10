@@ -55,7 +55,7 @@ export const authenticateToken = (
   }
 };
 
-// ✅ Add optional authentication - allows requests without tokens
+// Add optional authentication - allows requests without tokens
 export const optionalAuth = (
   req: AuthRequest,
   _res: Response,

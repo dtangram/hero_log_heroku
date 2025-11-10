@@ -12,7 +12,7 @@ router.get(
 );
 
 // POST /salelist/
-// ✅ FIXED: Create a new sale list (not search)
+// FIXED: Create a new sale list (not search)
 router.post(
   '/',
   validationCtrl.validate('createSaleList'),

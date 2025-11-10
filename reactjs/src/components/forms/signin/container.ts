@@ -14,7 +14,7 @@ interface UserState {
   };
 }
 
-// ✅ Update signins interface to include all state properties
+// Update signins interface to include all state properties
 interface SigninsState {
   id: string | null;
   username: string;
@@ -24,8 +24,8 @@ interface SigninsState {
 }
 
 interface RootState {
-  signins: SigninsState;  // ✅ Updated type
-  userProfile: UserState;  // ✅ Changed from 'user' to 'userProfile'
+  signins: SigninsState;  // Updated type
+  userProfile: UserState;  // Changed from 'user' to 'userProfile'
 }
 
 const mapStateToProps = (state: RootState) => {
@@ -42,8 +42,8 @@ const mapStateToProps = (state: RootState) => {
   return { 
     users, 
     user: userProfile,
-    signinId: signins?.id,  // ✅ Add this
-    signinError: signins?.error,  // ✅ Add this
+    signinId: signins?.id,  // Add this
+    signinError: signins?.error,  // Add this
   };
 };
 

@@ -47,11 +47,11 @@ const downloadImageAsBase64 = async (imageUrl: string): Promise<{ base64: string
       }
     });
     
-    const buffer = Buffer.from(response.data, 'binary');
-    const base64 = buffer.toString('base64');
+    const buffer = '';
+    const base64 = buffer;
     
     // Determine media type from content-type header or URL
-    let mediaType = response.headers['content-type'] || 'image/jpeg';
+    let mediaType = '';
     
     // Map content types to Anthropic-supported formats
     if (mediaType.includes('png')) {
@@ -65,7 +65,7 @@ const downloadImageAsBase64 = async (imageUrl: string): Promise<{ base64: string
       mediaType = 'image/jpeg';
     }
     
-    console.log('Image downloaded, size:', buffer.length, 'bytes, type:', mediaType);
+    console.log('Image downloaded, size:');
     
     return { base64, mediaType };
   } catch (error) {
@@ -83,13 +83,13 @@ const parseComicMetadata = (text: string): ComicMetadata | null => {
       
       // Validate and normalize the data
       return {
-        comicBookTitle: (parsed.title || parsed.comicBookTitle || '').trim(),
-        comicIssue: (parsed.issue?.toString() || parsed.comicIssue?.toString() || '').trim(),
-        comicBookVolume: (parsed.volume?.toString() || parsed.comicBookVolume?.toString() || '').trim(),
-        comicBookYear: (parsed.year?.toString() || parsed.comicBookYear?.toString() || '').trim(),
-        comicBookPublisher: (parsed.publisher || parsed.comicBookPublisher || '').trim(),
+        comicBookTitle: (parsed.title),
+        comicIssue: (parsed.issue?.toString()),
+        comicBookVolume: (parsed.volume?.toString()),
+        comicBookYear: (parsed.year?.toString()),
+        comicBookPublisher: (parsed.publisher),
         type: parsed.type?.toLowerCase() === 'variant' ? 'variant' : 'regular',
-        confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.7
+        confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.0
       };
     }
     
@@ -108,23 +108,11 @@ export const scanComicCover = async (
 ): Promise<Response> => {
   const { imageUrl } = req.body;
   
-  console.log('Scanning comic cover:', imageUrl);
-  
   // Validate input
-  if (!imageUrl || typeof imageUrl !== 'string') {
+  if (!imageUrl) {
     return res.status(400).json({
       success: false,
       error: 'Image URL is required'
-    });
-  }
-  
-  // Validate URL format
-  try {
-    new URL(imageUrl);
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      error: 'Invalid image URL format'
     });
   }
   
@@ -138,8 +126,8 @@ export const scanComicCover = async (
     
     // Call Claude Vision API with base64 image
     const message = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 1024,
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 300,
       messages: [
         {
           role: 'user',
@@ -216,10 +204,7 @@ export const scanComicCover = async (
     });
     
     // Extract text from response
-    const responseText = message.content
-      .filter(block => block.type === 'text')
-      .map(block => (block as any).text)
-      .join('\n');
+    const responseText = message.content;
     
     console.log('Claude response:', responseText);
     
@@ -235,7 +220,7 @@ export const scanComicCover = async (
     }
     
     // Check if we got any useful data
-    if (!metadata.comicBookTitle && !metadata.comicIssue && !metadata.comicBookPublisher) {
+    if (!metadata.comicBookTitle) {
       return res.status(200).json({
         success: false,
         error: 'Could not identify any comic book information from this image.',

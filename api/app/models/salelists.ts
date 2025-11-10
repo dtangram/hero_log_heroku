@@ -67,8 +67,8 @@ const createSaleListsModel = (sequelize: Sequelize, dataTypes: typeof DataTypes)
       },
     },
   }, {
-    timestamps: true,  // ✅ Keep timestamps
-    tableName: 'SaleLists',  // ✅ Explicit table name
+    timestamps: true,  // Keep timestamps
+    tableName: 'SaleLists',  // Explicit table name
   }) as SaleListsModel;
   
   SaleLists.associate = (models: Models) => {

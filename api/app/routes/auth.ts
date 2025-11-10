@@ -47,9 +47,9 @@ interface ErrorResponse {
 
 interface LoginResponseData {
   token: string;
-  id: string;           // ✅ Add this
-  username?: string;    // ✅ Add this
-  email?: string;       // ✅ Add this
+  id: string;           // Add this
+  username?: string;    // Add this
+  email?: string;       // Add this
   type?: string;
 }
 

@@ -125,8 +125,6 @@ export const createComicBookTitle = (
 ): APIAction => {
   validateComicBookTitle(comicbooklist);
 
-  console.log('Creating comic book title:', comicbooklist);
-
   return {
     types: [
       ADD_COMIC_BOOK_TITLE_PENDING,

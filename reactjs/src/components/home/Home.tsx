@@ -19,8 +19,8 @@ const Home = ({
   isLoading = false,
   user,
 }: ConnectorProps) => {
-  console.log('🏠 Home - user prop:', user);  // ✅ Add this
-  console.log('🏠 Home - user type:', typeof user);  // ✅ Add this
+  console.log('🏠 Home - user prop:', user);  // Add this
+  console.log('🏠 Home - user type:', typeof user);  // Add this
   
   const userId = localStorage?.getItem('id') ?? '';
 

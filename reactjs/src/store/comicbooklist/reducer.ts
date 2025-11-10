@@ -228,7 +228,7 @@ const comicbooklistSuccess = (state: object, action: object): object => {
   
   if (!title || !title.id || !title.collectpubId) return typedState;
   
-  // ✅ FIX: Use the ID from the title data, not from payload
+  // FIX: Use the ID from the title data, not from payload
   const titleId = title.id;
   const { collectpubId } = title;
   

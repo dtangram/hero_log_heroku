@@ -28,9 +28,9 @@ module.exports = {
         ],
         {}
       );
-      console.log('✅ ComicBook "Batman" created');
+      console.log('ComicBook "Batman" created');
     } else {
-      console.log('ℹ️  ComicBook "Batman" already exists, skipping...');
+      console.log('  ComicBook "Batman" already exists, skipping...');
     }
   },
 

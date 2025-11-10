@@ -12,9 +12,9 @@ module.exports = {
         defaultValue: 'https://herologimages.s3.us-east-2.amazonaws.com/material-design-account-icon.png'
       });
       
-      console.log('✅ Added profile_pic column to Users table');
+      console.log('Added profile_pic column to Users table');
     } else {
-      console.log('ℹ️  profile_pic column already exists, skipping...');
+      console.log('  profile_pic column already exists, skipping...');
     }
   },
 
@@ -23,7 +23,7 @@ module.exports = {
     
     if (tableDescription.profile_pic) {
       await queryInterface.removeColumn('Users', 'profile_pic');
-      console.log('✅ Removed profile_pic column from Users table');
+      console.log('Removed profile_pic column from Users table');
     }
   }
 };

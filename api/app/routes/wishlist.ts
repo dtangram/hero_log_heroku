@@ -5,7 +5,7 @@ import {
   getVariant,
   getWishLists,
   getOneById,
-  createWishList,  // ✅ Import createWishList
+  createWishList,  // Import createWishList
   updateWishList,
   removeWishList
 } from '../controllers/wishlist';
@@ -230,7 +230,7 @@ router.get(
   getWishLists
 );
 
-// ✅ FIXED: POST /wishlist/ - Create a new wishlist (not search)
+// FIXED: POST /wishlist/ - Create a new wishlist (not search)
 router.post(
   '/',
   validate('createWishList'),

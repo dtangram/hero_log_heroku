@@ -17,13 +17,13 @@ interface Signins {
 }
 
 interface RootState {
-  userProfile: User;  // ✅ Changed from 'user' to 'userProfile'
+  userProfile: User;  // Changed from 'user' to 'userProfile'
   signins: Signins;
 }
 
 // Map state to props
 const mapStateToProps = (state: RootState) => ({
-  user: state.userProfile,  // ✅ Changed from state.user to state.userProfile
+  user: state.userProfile,  // Changed from state.user to state.userProfile
   signins: state.signins
 });
 

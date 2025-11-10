@@ -18,7 +18,7 @@ interface UserProfile {
 }
 
 interface RootState {
-  userProfile: UserProfile;  // ✅ Changed from signups to userProfile
+  userProfile: UserProfile;  // Changed from signups to userProfile
 }
 
 function mapStateToProps(state: RootState) {
@@ -26,7 +26,7 @@ function mapStateToProps(state: RootState) {
   
   console.log('📊 Profile container - userProfile state:', userProfile);
   
-  // ✅ Convert single user object to array for component compatibility
+  // Convert single user object to array for component compatibility
   const signups = userProfile?.data ? [userProfile.data] : [];
   
   return { 

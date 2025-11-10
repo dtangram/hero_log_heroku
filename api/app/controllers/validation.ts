@@ -144,7 +144,7 @@ const checks = {
     .optional({ values: 'falsy' })
     .trim(),
     
-  // ✅ FIXED: Changed from integer to UUID
+  // FIXED: Changed from integer to UUID
   saleUsersId: check('saleUsersId')
     .exists().withMessage('Sale user ID is required.')
     .isUUID()
@@ -153,8 +153,8 @@ const checks = {
     
   wishUsersId: check('wishUsersId')
     .exists().withMessage('Wish user ID is required.')
-    .isUUID()  // ✅ Remove the .isInt() line
-    .withMessage('Wish user ID must be a valid UUID.')  // ✅ Fix the message
+    .isUUID()  // Remove the .isInt() line
+    .withMessage('Wish user ID must be a valid UUID.')  // Fix the message
     .trim(),   
   messageUsersId: check('messageUsersId')
     .exists().withMessage('Message user ID is required.')
@@ -186,7 +186,7 @@ const checkForErrors = (
   const errors = validationResult(req);
   
   // ADD LOGGING
-  console.log('🔍 VALIDATION CHECK');
+  console.log('VALIDATION CHECK');
   console.log('URL:', req.url);
   console.log('Method:', req.method);
   console.log('Has errors:', !errors.isEmpty());
@@ -198,7 +198,7 @@ const checkForErrors = (
       message: error.msg
     }));
     
-    console.log('❌ VALIDATION ERRORS:', JSON.stringify(formattedErrors, null, 2));
+    console.log('VALIDATION ERRORS:', JSON.stringify(formattedErrors, null, 2));
     
     return res.status(400).json({
       success: false,
@@ -206,7 +206,7 @@ const checkForErrors = (
     });
   }
   
-  console.log('✅ VALIDATION PASSED - Proceeding to controller');
+  console.log('VALIDATION PASSED - Proceeding to controller');
   return next();
 };
 
@@ -334,7 +334,7 @@ export const validate = (method: string): Array<ValidationChain | typeof checkFo
       ];
     }
 
-    // ✅ FIXED: Changed validation for createSaleList
+    // FIXED: Changed validation for createSaleList
     case 'createSaleList': {
       return [
         checks.comicBookTitle,
@@ -347,7 +347,7 @@ export const validate = (method: string): Array<ValidationChain | typeof checkFo
 
     case 'editSaleList': {
       return [
-        checks.idUUID,  // ✅ Changed from idInt to idUUID
+        checks.idUUID,  // Changed from idInt to idUUID
         checks.comicBookTitle,
         checks.typeRV,
         checkForErrors
@@ -356,7 +356,7 @@ export const validate = (method: string): Array<ValidationChain | typeof checkFo
 
     case 'deleteSaleList': {
       return [
-        checks.idUUID,  // ✅ Changed from idInt to idUUID
+        checks.idUUID,  // Changed from idInt to idUUID
         checkForErrors
       ];
     }

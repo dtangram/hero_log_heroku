@@ -24,9 +24,9 @@ module.exports = {
         {}
       );
       
-      console.log('✅ CollectionPublisher "DC" created');
+      console.log('CollectionPublisher "DC" created');
     } else {
-      console.log('ℹ️  CollectionPublisher "DC" already exists, skipping...');
+      console.log('  CollectionPublisher "DC" already exists, skipping...');
     }
   },
 

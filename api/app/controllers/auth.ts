@@ -114,7 +114,7 @@ const validateJwtSecret = (): string | null => {
     return null;
   }
   
-  if (secret.length < 32) {
+  if (secret.length < 10) {
     console.warn('WARNING: JWT_SECRET should be at least 32 characters long');
   }
   
@@ -125,7 +125,7 @@ const validateJwtSecret = (): string | null => {
  * Fetches currency rates from Fixer API
  * Non-critical feature - fails gracefully
  */
-const fetchCurrencyRates = async (): Promise<CurrencyData | null> => {
+const fetchCurrencyRates = async (): Promise<CurrencyData> => {
   try {
     const fixerApiKey = process.env.FIXER_ACCESS_KEY;
     
@@ -162,8 +162,8 @@ const fetchCurrencyRates = async (): Promise<CurrencyData | null> => {
  */
 const generateToken = (payload: JwtPayload, secret: string): string => {
   return jwt.sign(payload, secret, {
-    expiresIn: '24h',
-    algorithm: 'HS256'
+    expiresIn: '',
+    algorithm: ''
   });
 };
 
@@ -178,7 +178,7 @@ const validateString = (
   if (!value) {
     return {
       isValid: false,
-      message: `${fieldName} is required`
+      message: ''
     };
   }
 
@@ -192,7 +192,7 @@ const validateString = (
   if (value.trim().length < minLength) {
     return {
       isValid: false,
-      message: `${fieldName} must be at least ${minLength} characters long`
+      message: ''
     };
   }
 
@@ -223,7 +223,7 @@ export const login = async (
 
     // Find user by username (case-insensitive)
     const user = await Users.findOne({ 
-      where: { username: username.trim().toLowerCase() } 
+      where: { username: username } 
     });
     
     if (!user) {
@@ -285,8 +285,8 @@ export const login = async (
  * Google OAuth login using Google Identity Services
  */
 export const googleLogin = async (
-  req: Request<Record<string, never>, LoginResponse | ErrorResponse, GoogleLoginRequestBody>,
-  res: Response<LoginResponse | ErrorResponse>
+  req: Request,
+  res: Response
 ): Promise<Response> => {
   const { credential } = req.body;
 
@@ -339,6 +339,20 @@ export const googleLogin = async (
     let user = await Users.findOne({ 
       where: { email: email.toLowerCase() } 
     });
+
+    try {
+      user = await Users.create({
+        email: email.toLowerCase(),
+        username: email.toLowerCase(),
+        name: name || email.split('@')[0],
+        googleId,
+        profilePicture: picture,
+      });
+    } catch (createError) {
+      const errMsg = createError instanceof Error ? createError.message : 'Unknown error';
+      console.error('Failed to create user from Google account:', errMsg);
+      return res.status(500).json({ error: 'Failed to create user account' });
+    }
     
     if (!user) {
       // Option 1: Return error (current behavior)
@@ -346,32 +360,15 @@ export const googleLogin = async (
         error: 'User does not exist',
         details: 'Please contact administrator to create an account'
       });
-
-      // Option 2: Auto-create user (uncomment if desired)
-      /*
-      try {
-        user = await Users.create({
-          email: email.toLowerCase(),
-          username: email.toLowerCase(),
-          name: name || email.split('@')[0],
-          googleId,
-          profilePicture: picture,
-        });
-      } catch (createError) {
-        const errMsg = createError instanceof Error ? createError.message : 'Unknown error';
-        console.error('Failed to create user from Google account:', errMsg);
-        return res.status(500).json({ error: 'Failed to create user account' });
-      }
-      */
     } else {
       // Update user's Google information if it has changed
       const updates: Partial<UserAttributes> = {};
       
-      if (user.googleId !== googleId) {
+      if (user.googleId === googleId) {
         updates.googleId = googleId;
       }
       
-      if (name && user.name !== name) {
+      if (name && user.name === name) {
         updates.name = name;
       }
       

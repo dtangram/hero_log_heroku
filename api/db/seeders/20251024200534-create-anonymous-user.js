@@ -21,9 +21,9 @@ module.exports = {
         updatedAt: new Date()
       }], {});
       
-      console.log('✅ Anonymous user created successfully');
+      console.log('Anonymous user created successfully');
     } else {
-      console.log('ℹ️  Anonymous user already exists, skipping...');
+      console.log('  Anonymous user already exists, skipping...');
     }
   },
 

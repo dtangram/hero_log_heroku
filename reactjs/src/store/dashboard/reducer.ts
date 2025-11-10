@@ -172,7 +172,7 @@ const publisherSuccess = (state: object, action: object): object => {
   
   if (!publisher || !publisher.id) return typedState;
   
-  // ✅ FIX: Use the ID from the publisher data, not from payload
+  // FIX: Use the ID from the publisher data, not from payload
   const publisherId = publisher.id;
   const existingData = typedState.byId[publisherId]?.data || {};
 

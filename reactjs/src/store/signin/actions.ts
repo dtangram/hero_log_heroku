@@ -111,10 +111,9 @@ export const loginUser = (signin: SignInCredentials): APIAction => {
         
         if (response?.data) {
           storeAuthData(response.data);
-          clearAnonymousId();  
-          console.log('🗑️ Cleared anonymous ID after login');
+          clearAnonymousId();
           
-          // ✅ Clear publishers cache so Dashboard refetches
+          // Clear publishers cache so Dashboard refetches
           localStorage.removeItem('publishersCache');
         }
         

@@ -32,7 +32,7 @@ interface User {
 
 interface RootState {
   salesALL: SalesALLState;
-  userProfile: User;  // ✅ Changed from 'user' to 'userProfile'
+  userProfile: User;  // Changed from 'user' to 'userProfile'
 }
 
 function mapStateToProps(state: RootState) {
@@ -48,7 +48,7 @@ function mapStateToProps(state: RootState) {
   return {
     salesALL,
     isLoading,
-    user: state.userProfile?.data,  // ✅ Changed from state.user to state.userProfile
+    user: state.userProfile?.data,  // Changed from state.user to state.userProfile
   };
 }
 

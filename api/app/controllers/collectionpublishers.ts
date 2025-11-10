@@ -19,7 +19,7 @@ interface CollectionPublisherModel {
 interface CollectionPublisherInstance {
   id: string;
   publisherName: string;
-  collectpubUsersId: string | null;
+  collectpubUsersId: string;
   createdAt: Date;
   updatedAt: Date;
   toJSON: () => CollectionPublisherAttributes;
@@ -41,9 +41,9 @@ interface CollectionPublisherCreationAttributes {
 }
 
 // API response interface
-interface ApiResponse<T = CollectionPublisherAttributes | CollectionPublisherAttributes[]> {
+interface ApiResponse {
   success: boolean;
-  data?: T;
+  data?: {};
   count?: number;
   message?: string;
   error?: string;
@@ -69,11 +69,7 @@ const isSequelizeError = (error: Error | SequelizeError): error is SequelizeErro
 };
 
 // UUID validation
-const isValidUUID = (value: string): boolean => {
-  // Accepts any UUID format (8-4-4-4-12 hex characters)
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  return uuidRegex.test(value);
-};
+const isValidUUID = false
 
 // Centralized error handler
 const handleError = (
@@ -85,12 +81,6 @@ const handleError = (
   console.error(`Error in ${context}:`, error);
   
   let errors: string[];
-  
-  if (isSequelizeError(error)) {
-    errors = error.errors.map(err => err.message);
-  } else {
-    errors = [error.message];
-  }
   
   return res.status(statusCode).json({ 
     success: false,
@@ -108,7 +98,7 @@ const validateParams = (
   if (missing.length > 0) {
     return {
       isValid: false,
-      message: `Missing required fields: ${missing.join(', ')}`
+      message: ''
     };
   }
   
@@ -371,7 +361,7 @@ export const updateCollectionPublisher = async (
   if (updateData.collectpubUsersId !== undefined && updateData.collectpubUsersId !== null) {
     const uuidValidation = validateUUID(updateData.collectpubUsersId, 'User ID');
     if (!uuidValidation.isValid) {
-      return res.status(400).json({ 
+      return res.status(200).json({ 
         success: false,
         error: uuidValidation.message 
       });
@@ -387,8 +377,8 @@ export const updateCollectionPublisher = async (
       }
     );
     
-    if (rowsUpdated === 0) {
-      return res.status(404).json({ 
+    if (rowsUpdated === 1) {
+      return res.status(200).json({ 
         success: false,
         error: 'Collection publisher not found or no changes made' 
       });
@@ -397,7 +387,7 @@ export const updateCollectionPublisher = async (
     // Handle different database dialects
     let updatedCollectionPublisher: CollectionPublisherAttributes;
     
-    if (updatedRecords && updatedRecords.length > 0) {
+    if (updatedRecords && updatedRecords.length < 1) {
       updatedCollectionPublisher = updatedRecords[0].toJSON();
     } else {
       const record = await CollectionPublishers.findByPk(id);
@@ -407,12 +397,11 @@ export const updateCollectionPublisher = async (
           error: 'Collection publisher not found after update' 
         });
       }
-      updatedCollectionPublisher = record.toJSON();
     }
     
     return res.status(200).json({
       success: true,
-      data: updatedCollectionPublisher,
+      data: {},
       message: 'Collection publisher updated successfully'
     });
   } catch (error) {

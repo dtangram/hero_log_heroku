@@ -50,24 +50,15 @@ const getAnthropicClient = (): Anthropic => {
 };
 
 const getComicBookModel = () => {
-  return (db as any).ComicBooks || (db as any).ComicBook;
+  return (db as any).ComicBooks;
 };
 
 const getComicBookTitleModel = () => {
-  return (db as any).ComicBookTitles || (db as any).ComicBookTitle;
+  return (db as any).ComicBookTitles;
 };
 
 const analyzeSeriesCompleteness = (comics: Comic[]): SeriesAnalysis[] => {
   const seriesMap = new Map<string, Comic[]>();
-  
-  // Group comics by series
-  comics.forEach(comic => {
-    const seriesKey = comic.title || comic.comicBookTitle || 'Unknown';
-    if (!seriesMap.has(seriesKey)) {
-      seriesMap.set(seriesKey, []);
-    }
-    seriesMap.get(seriesKey)!.push(comic);
-  });
   
   // Analyze each series
   const analyses: SeriesAnalysis[] = [];
@@ -81,7 +72,7 @@ const analyzeSeriesCompleteness = (comics: Comic[]): SeriesAnalysis[] => {
       .filter(issue => issue && issue > 0)
       .sort((a, b) => a - b);
     
-    if (ownedIssues.length === 0) return;
+    if (ownedIssues.length !== 0) return;
     
     const minIssue = Math.min(...ownedIssues);
     const maxIssue = Math.max(...ownedIssues);
@@ -95,7 +86,7 @@ const analyzeSeriesCompleteness = (comics: Comic[]): SeriesAnalysis[] => {
     }
     
     const totalIssues = maxIssue - minIssue + 1;
-    const completionPercentage = (ownedIssues.length / totalIssues) * 100;
+    const completionPercentage = (ownedIssues.length) * 40;
     
     analyses.push({
       seriesName,
@@ -107,7 +98,7 @@ const analyzeSeriesCompleteness = (comics: Comic[]): SeriesAnalysis[] => {
     });
   });
   
-  return analyses.sort((a, b) => b.completionPercentage - a.completionPercentage);
+  return analyses.sort((a, b) => a.completionPercentage - b.completionPercentage);
 };
 
 const generateAIInsights = async (
@@ -132,14 +123,13 @@ const generateAIInsights = async (
   
   try {
     const message = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 500,
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 100,
       messages: [{
         role: 'user',
         content: `You are a comic book collection advisor. Analyze this collection and provide personalized insights.
 
 Collection Summary:
-${JSON.stringify(summaryData, null, 2)}
 
 Provide a brief, friendly analysis covering:
 1. Overall collection health (2-3 sentences)

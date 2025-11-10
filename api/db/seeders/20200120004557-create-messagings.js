@@ -25,9 +25,9 @@ module.exports = {
         ],
         {}
       );
-      console.log('✅ Messaging from Thomas Johnson created');
+      console.log('Messaging from Thomas Johnson created');
     } else {
-      console.log('ℹ️  Messaging from Thomas Johnson already exists, skipping...');
+      console.log('  Messaging from Thomas Johnson already exists, skipping...');
     }
   },
 

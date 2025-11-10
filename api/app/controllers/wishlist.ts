@@ -7,21 +7,21 @@ import db from '../models';
 // ============================================================================
 
 interface WishListAttributes {
-  id?: string;  // ✅ Changed to UUID
+  id?: string;  // Changed to UUID
   comicBookTitle: string;
-  comicIssue: number | null;  // ✅ Changed to number
-  comicBookVolume: number | null;  // ✅ Changed to number
-  comicBookYear: number | null;  // ✅ Changed to number
+  comicIssue: number | null;  // Changed to number
+  comicBookVolume: number | null;  // Changed to number
+  comicBookYear: number | null;  // Changed to number
   comicBookPublisher: string;
   comicBookCover: string | null;
   type: 'regular' | 'variant';
-  wishUsersId: string;  // ✅ Changed to UUID
+  wishUsersId: string;  // Changed to UUID
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 interface WishListInstance {
-  id?: string;  // ✅ Changed to UUID
+  id?: string;  // Changed to UUID
   comicBookTitle: string;
   comicIssue: number | null;
   comicBookVolume: number | null;
@@ -29,7 +29,7 @@ interface WishListInstance {
   comicBookPublisher: string;
   comicBookCover: string | null;
   type: 'regular' | 'variant';
-  wishUsersId: string;  // ✅ Changed to UUID
+  wishUsersId: string;  // Changed to UUID
   createdAt: Date;
   updatedAt: Date;
   toJSON: () => WishListAttributes;
@@ -37,7 +37,7 @@ interface WishListInstance {
 
 interface WishListModel {
   findAll: (options: { where: WhereOptions<WishListAttributes> }) => Promise<WishListInstance[]>;
-  findByPk: (id: string) => Promise<WishListInstance | null>;  // ✅ Changed to UUID
+  findByPk: (id: string) => Promise<WishListInstance | null>;  // Changed to UUID
   create: (data: Partial<WishListAttributes>) => Promise<WishListInstance>;
   update: (
     data: Partial<WishListAttributes>,
@@ -72,7 +72,7 @@ const getWishListModel = (): WishListModel => {
   const WishList = (db as any).WishLists || (db as any).Wishlist || (db as any).wishlist;
   
   if (!WishList) {
-    console.error('❌ WishList model not found. Available models:', Object.keys(db));
+    console.error('WishList model not found. Available models:', Object.keys(db));
     throw new Error('WishList model not loaded');
   }
   
@@ -146,7 +146,7 @@ const validateString = (
   return { isValid: true };
 };
 
-// ✅ Added UUID validation
+// Added UUID validation
 const validateUUID = (value: string, fieldName: string = 'ID'): ValidationResult => {
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   
@@ -203,7 +203,7 @@ export const getWishLists = async (
     });
   }
   
-  // ✅ Validate UUID instead of numeric
+  // Validate UUID instead of numeric
   const uuidValidation = validateUUID(userId, 'User ID');
   if (!uuidValidation.isValid) {
     return res.status(400).json({ 
@@ -214,7 +214,7 @@ export const getWishLists = async (
   
   try {
     const wishLists = await findWishLists({ 
-      wishUsersId: userId  // ✅ No parseInt
+      wishUsersId: userId  // No parseInt
     });
     
     return res.status(200).json({
@@ -275,7 +275,7 @@ export const getOneById = async (
     });
   }
   
-  // ✅ Validate UUID instead of numeric
+  // Validate UUID instead of numeric
   const uuidValidation = validateUUID(id, 'Wish list ID');
   if (!uuidValidation.isValid) {
     return res.status(400).json({ 
@@ -286,7 +286,7 @@ export const getOneById = async (
   
   try {
     const WishLists = getWishListModel();
-    const wishlist = await WishLists.findByPk(id);  // ✅ No parseInt
+    const wishlist = await WishLists.findByPk(id);  // No parseInt
     
     if (!wishlist) {
       return res.status(404).json({ 
@@ -306,7 +306,7 @@ export const getOneById = async (
 
 export const createWishList = async (
   req: Request<Record<string, never>, Record<string, never>, Partial<WishListAttributes>>,
-  res: Response<ApiResponse<{ id: string }>>  // ✅ Changed to string
+  res: Response<ApiResponse<{ id: string }>>  // Changed to string
 ): Promise<Response> => {
   const {
     comicBookTitle,
@@ -319,7 +319,7 @@ export const createWishList = async (
     wishUsersId,
   } = req.body;
   
-  // ✅ Only validate required fields
+  // Only validate required fields
   const validation = validateParams(req.body as Record<string, string | number>, [
     'comicBookTitle',
     'comicBookPublisher',
@@ -361,7 +361,7 @@ export const createWishList = async (
     });
   }
   
-  // ✅ Validate UUID
+  // Validate UUID
   const userIdValidation = validateUUID(wishUsersId!, 'Wish Users ID');
   if (!userIdValidation.isValid) {
     return res.status(400).json({ 
@@ -370,7 +370,7 @@ export const createWishList = async (
     });
   }
   
-  // ✅ Convert string numbers to integers
+  // Convert string numbers to integers
   const comicIssueNum = comicIssue ? parseInt(comicIssue as any, 10) : null;
   const comicBookVolumeNum = comicBookVolume ? parseInt(comicBookVolume as any, 10) : null;
   const comicBookYearNum = comicBookYear ? parseInt(comicBookYear as any, 10) : null;
@@ -385,7 +385,7 @@ export const createWishList = async (
       comicBookPublisher: comicBookPublisher!.trim(),
       comicBookCover: comicBookCover?.trim() || null,
       type: type!.toLowerCase() as 'regular' | 'variant',
-      wishUsersId: wishUsersId!,  // ✅ UUID string
+      wishUsersId: wishUsersId!,  // UUID string
     });
     
     return res.status(201).json({ 
@@ -412,7 +412,7 @@ export const updateWishList = async (
     });
   }
   
-  // ✅ Validate UUID
+  // Validate UUID
   const uuidValidation = validateUUID(id, 'Wish list ID');
   if (!uuidValidation.isValid) {
     return res.status(400).json({ 
@@ -463,7 +463,7 @@ export const updateWishList = async (
     updateData.type = updateData.type.toLowerCase() as 'regular' | 'variant';
   }
   
-  // ✅ Validate UUID if provided
+  // Validate UUID if provided
   if (updateData.wishUsersId !== undefined) {
     const userIdValidation = validateUUID(updateData.wishUsersId, 'Wish Users ID');
     if (!userIdValidation.isValid) {
@@ -479,7 +479,7 @@ export const updateWishList = async (
     const [rowsUpdated, updatedRecords] = await WishLists.update(
       updateData,
       {
-        where: { id },  // ✅ No parseInt
+        where: { id },  // No parseInt
         returning: true,
       }
     );
@@ -496,7 +496,7 @@ export const updateWishList = async (
     if (updatedRecords && updatedRecords.length > 0) {
       updatedWishList = updatedRecords[0].toJSON();
     } else {
-      const record = await WishLists.findByPk(id);  // ✅ No parseInt
+      const record = await WishLists.findByPk(id);  // No parseInt
       if (!record) {
         return res.status(404).json({ 
           success: false,
@@ -530,7 +530,7 @@ export const removeWishList = async (
     });
   }
   
-  // ✅ Validate UUID
+  // Validate UUID
   const uuidValidation = validateUUID(id, 'Wish list ID');
   if (!uuidValidation.isValid) {
     return res.status(400).json({ 
@@ -541,7 +541,7 @@ export const removeWishList = async (
   
   try {
     const WishLists = getWishListModel();
-    const existingRecord = await WishLists.findByPk(id);  // ✅ No parseInt
+    const existingRecord = await WishLists.findByPk(id);  // No parseInt
     
     if (!existingRecord) {
       return res.status(404).json({ 
@@ -551,7 +551,7 @@ export const removeWishList = async (
     }
     
     const rowsDeleted = await WishLists.destroy({ 
-      where: { id }  // ✅ No parseInt
+      where: { id }  // No parseInt
     });
     
     if (rowsDeleted === 0) {

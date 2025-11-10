@@ -41,7 +41,7 @@ const WishList = ({
   wishlists = {},
   deleteWishlist,
 }: ConnectorProps) => {
-  // ✅ Get userId from localStorage or anonymous
+  // Get userId from localStorage or anonymous
   const userId = localStorage?.getItem('id') || getAnonymousUserId();
 
   console.log('📊 WishList Component');
@@ -82,7 +82,7 @@ const WishList = ({
     }
   }, [deleteWishlist, fetchWishlists]);
 
-  // ✅ Extract current wish list data using the correct userId
+  // Extract current wish list data using the correct userId
   const currentWishlistsData = wishlists[userId] || {};
   const { allIds = [], byId = {}, isLoading = false } = currentWishlistsData;
 

@@ -40,7 +40,7 @@ const Sale = ({
   sales = {},
   deleteSale,
 }: ConnectorProps) => {
-  // ✅ Get userId from localStorage or anonymous
+  // Get userId from localStorage or anonymous
   const userId = localStorage?.getItem('id') || getAnonymousUserId();
 
   console.log('📊 Sale Component');
@@ -81,7 +81,7 @@ const Sale = ({
     }
   }, [deleteSale, fetchSales]);
 
-  // ✅ Extract current sales data using the correct userId
+  // Extract current sales data using the correct userId
   const currentSalesData = sales[userId] || {};
   const { allIds = [], byId = {}, isLoading = false } = currentSalesData;
 

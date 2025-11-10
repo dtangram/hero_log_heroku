@@ -92,13 +92,11 @@ export const fetchUserProfile = (idUser?: string): Action => {
     shouldCallAPI: (state: RootState) => shouldFetchUserProfile(state, userId),
     payload: { id: userId },
     transformResponse: (response: { success?: boolean; data?: UserProfile }) => {
-      // ✅ Data is at response.data directly
+      // Data is at response.data directly
       if (response?.data) {
-        console.log('✅ Returning user data:', response.data);
         return response.data;
       }
       
-      console.log('❌ No data in response');
       return null;
     },
   };

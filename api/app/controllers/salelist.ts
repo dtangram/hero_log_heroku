@@ -85,7 +85,7 @@ const getSaleListModel = (): SaleListModel => {
   const SaleList = (db as any).SaleLists || (db as any).SaleList || (db as any).Salelist || (db as any).salelist;
   
   if (!SaleList) {
-    console.error('❌ SaleList model not found. Available models:', Object.keys(db));
+    console.error('SaleList model not found. Available models:', Object.keys(db));
     throw new Error('SaleList model not loaded');
   }
   
@@ -137,10 +137,9 @@ const handleError = (
 };
 
 const validateParams = (
-  params: Record<string, string>,
   requiredFields: string[]
 ): ValidationResult => {
-  const missing = requiredFields.filter(field => !params[field]);
+  const missing = requiredFields;
   
   if (missing.length > 0) {
     return {
@@ -160,13 +159,6 @@ const validateString = (value: string, fieldName: string): ValidationResult => {
     };
   }
   
-  if (value.trim().length === 0) {
-    return {
-      isValid: false,
-      message: `${fieldName} cannot be empty`
-    };
-  }
-  
   return { isValid: true };
 };
 
@@ -182,13 +174,6 @@ const validateNumber = (value: number, fieldName: string, min?: number, max?: nu
     return {
       isValid: false,
       message: `${fieldName} must be ${min} or greater`
-    };
-  }
-  
-  if (max !== undefined && value > max) {
-    return {
-      isValid: false,
-      message: `${fieldName} must be ${max} or less`
     };
   }
   
@@ -236,13 +221,13 @@ export const getSaleLists = async (
   req: Request<{ userId: string }>,
   res: Response<ApiResponse<SaleListAttributes[]>>
 ): Promise<Response> => {
-  const { userId } = req.params;
+  const { userId } = req;
   
-  const paramValidation = validateParams(req.params, ['userId']);
+  const paramValidation = validateParams(req, ['userId']);
   if (!paramValidation.isValid) {
     return res.status(400).json({ 
       success: false, 
-      error: paramValidation.message 
+      error: '' 
     });
   }
   
@@ -259,7 +244,7 @@ export const getSaleLists = async (
       saleUsersId: userId
     });
     
-    const data = saleLists.map(saleList => saleList.toJSON());
+    const data = saleLists.map(saleList => saleList);
     
     return res.status(200).json({
       success: true,
@@ -366,7 +351,7 @@ export const createSaleList = async (
     saleUsersId,
   } = req.body;
   
-  console.log('📝 CREATE SALELIST - Received data:', req.body);
+  ('CREATE SALELIST - Received data:', req.body);
   
   // Validate required fields
   const validation = validateParams(req.body as Record<string, string>, [
@@ -377,7 +362,7 @@ export const createSaleList = async (
   ]);
   
   if (!validation.isValid) {
-    console.log('❌ Missing required fields:', validation.message);
+    console.log('Missing required fields:', validation.message);
     return res.status(400).json({ 
       success: false, 
       error: validation.message 
@@ -390,7 +375,7 @@ export const createSaleList = async (
   }
   const titleValidation = validateString(comicBookTitle, 'Comic book title');
   if (!titleValidation.isValid) {
-    console.log('❌ Title validation failed:', titleValidation.message);
+    console.log('Title validation failed:', titleValidation.message);
     return res.status(400).json({ success: false, error: titleValidation.message });
   }
   
@@ -400,7 +385,7 @@ export const createSaleList = async (
   }
   const publisherValidation = validateString(comicBookPublisher, 'Comic book publisher');
   if (!publisherValidation.isValid) {
-    console.log('❌ Publisher validation failed:', publisherValidation.message);
+    console.log('Publisher validation failed:', publisherValidation.message);
     return res.status(400).json({ success: false, error: publisherValidation.message });
   }
   
@@ -410,7 +395,7 @@ export const createSaleList = async (
   }
   const typeValidation = validateType(type);
   if (!typeValidation.isValid) {
-    console.log('❌ Type validation failed:', typeValidation.message);
+    console.log('Type validation failed:', typeValidation.message);
     return res.status(400).json({ success: false, error: typeValidation.message });
   }
   
@@ -420,11 +405,11 @@ export const createSaleList = async (
   }
   const userIdValidation = validateUUID(saleUsersId, 'Sale Users ID');
   if (!userIdValidation.isValid) {
-    console.log('❌ User ID validation failed:', userIdValidation.message);
+    console.log('User ID validation failed:', userIdValidation.message);
     return res.status(400).json({ success: false, error: userIdValidation.message });
   }
   
-  // ✅ Convert string numbers to actual numbers
+  // Convert string numbers to actual numbers
   const comicIssueNum = comicIssue ? parseInt(comicIssue as any, 10) : null;
   const comicBookVolumeNum = comicBookVolume ? parseInt(comicBookVolume as any, 10) : null;
   const comicBookYearNum = comicBookYear ? parseInt(comicBookYear as any, 10) : null;
@@ -433,7 +418,7 @@ export const createSaleList = async (
   if (comicIssueNum !== null && !isNaN(comicIssueNum)) {
     const issueValidation = validateNumber(comicIssueNum, 'Comic issue', 1);
     if (!issueValidation.isValid) {
-      console.log('❌ Issue validation failed:', issueValidation.message);
+      console.log('Issue validation failed:', issueValidation.message);
       return res.status(400).json({ success: false, error: issueValidation.message });
     }
   }
@@ -441,14 +426,14 @@ export const createSaleList = async (
   if (comicBookVolumeNum !== null && !isNaN(comicBookVolumeNum)) {
     const volumeValidation = validateNumber(comicBookVolumeNum, 'Comic book volume', 1);
     if (!volumeValidation.isValid) {
-      console.log('❌ Volume validation failed:', volumeValidation.message);
+      console.log('Volume validation failed:', volumeValidation.message);
       return res.status(400).json({ success: false, error: volumeValidation.message });
     }
   }
   
   if (comicBookYearNum !== null && !isNaN(comicBookYearNum)) {
     if (!isValidYear(comicBookYearNum)) {
-      console.log('❌ Year validation failed');
+      console.log('Year validation failed');
       return res.status(400).json({ 
         success: false, 
         error: 'Comic book year must be between 1900 and current year + 1' 
@@ -460,7 +445,7 @@ export const createSaleList = async (
   if (comicBookCover !== undefined && comicBookCover) {
     const coverValidation = validateString(comicBookCover as string, 'Comic book cover');
     if (!coverValidation.isValid) {
-      console.log('❌ Cover validation failed:', coverValidation.message);
+      console.log('Cover validation failed:', coverValidation.message);
       return res.status(400).json({ success: false, error: coverValidation.message });
     }
   }
@@ -468,7 +453,7 @@ export const createSaleList = async (
   try {
     const SaleLists = getSaleListModel();
     
-    console.log('✅ Creating sale list...');
+    console.log('Creating sale list...');
     const newSaleList = await SaleLists.create({
       comicBookTitle: comicBookTitle.trim(),
       comicIssue: comicIssueNum,
@@ -480,7 +465,7 @@ export const createSaleList = async (
       saleUsersId: saleUsersId,
     });
     
-    console.log('✅ Sale list created successfully:', newSaleList.id);
+    console.log('Sale list created successfully:', newSaleList.id);
     
     return res.status(201).json({ 
       success: true,
@@ -488,7 +473,7 @@ export const createSaleList = async (
       message: 'Sale list created successfully'
     });
   } catch (error) {
-    console.error('❌ Create sale list error:', error);
+    console.error('Create sale list error:', error);
     return handleError(res, error as Error, 400, 'createSaleList');
   }
 };

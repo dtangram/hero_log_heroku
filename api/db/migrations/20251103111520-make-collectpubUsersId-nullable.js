@@ -11,7 +11,7 @@ module.exports = {
     // Make the column nullable
     await queryInterface.changeColumn('CollectionPublishers', 'collectpubUsersId', {
       type: Sequelize.UUID,
-      allowNull: true,  // ✅ Allow null for anonymous users
+      allowNull: true,  // Allow null for anonymous users
     });
   },
 

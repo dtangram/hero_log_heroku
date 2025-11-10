@@ -1,6 +1,6 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { fetchPublishers, deletePublisher } from '../../store/dashboard/actions';
-import Dashboard from './Dashboard';  // ✅ Import the component
+import Dashboard from './Dashboard';  // Import the component
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -74,5 +74,5 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 export type ConnectorProps = ConnectedProps<typeof connector>;
 export type { Publisher };
 
-// ✅ Connect and export
+// Connect and export
 export default connector(Dashboard);

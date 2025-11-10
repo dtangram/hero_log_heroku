@@ -9,20 +9,16 @@ import db from './models'; // Import db for health check
 // Import routers
 import collectionpublisherRouter from './routes/collectionpublishers';
 import comicbooktitleRouter from './routes/comicbooktitles';
-import comicbookRouter from './routes/comicbook';
 import messagingRouter from './routes/messaging';
 import salelistRouter from './routes/salelist';
 import salelistALLRouter from './routes/salelistALL';
 import wishlistRouter from './routes/wishlist';
 import usersRouter from './routes/user';
-import authRouter from './routes/auth';
 import passwordresetRouter from './routes/passwordreset';
 import emailPasswordResetRouter from './routes/emailpasswordreset';
 
 // Import utility routes
 import s3Router from './routes/s3upload';
-import aiScanner from './routes/aiScanner';
-import collectionInsights from './routes/collectionInsights';
 
 // ============================================================================
 // CONFIGURATION
@@ -100,8 +96,8 @@ if (ENV.nodeEnv === 'development') {
 
 // Global request logger (for debugging)
 app.use((req: Request, _res: Response, next: NextFunction) => {
-  console.log(`📨 ${req.method} ${req.url}`);
-  console.log(`📨 Body:`, JSON.stringify(req.body));
+  console.log(`${req.method} ${req.url}`);
+  console.log(`Body:`, JSON.stringify(req.body));
   next();
 });
 
@@ -140,17 +136,13 @@ app.get('/health', async (_req: Request, res: Response) => {
 // API routes
 app.use('/collectpub', collectionpublisherRouter);
 app.use('/comicbooktitles', comicbooktitleRouter);
-app.use('/comicbook', comicbookRouter);
 app.use('/messaging', messagingRouter);
 app.use('/salelist', salelistRouter);
 app.use('/salelistALL', salelistALLRouter);
 app.use('/wishlist', wishlistRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);
 app.use('/passwordreset', passwordresetRouter);
 app.use('/emailpasswordreset', emailPasswordResetRouter);
-app.use('/ai', aiScanner);
-app.use('/api/insights', collectionInsights);
 
 // Utility routes
 app.use('/s3', s3Router);
@@ -167,18 +159,18 @@ if (ENV.nodeEnv === 'production') {
     path.join(__dirname, 'build'),               // api/dist/app/build (alternative)
   ];
   
-  console.log('🔍 Searching for React build...');
-  console.log('📁 Current directory (__dirname):', __dirname);
-  console.log('🔎 Checking paths:', possibleBuildPaths);
+  console.log('Searching for React build...');
+  console.log('Current directory (__dirname):', __dirname);
+  console.log('Checking paths:', possibleBuildPaths);
   
   const reactBuildPath = possibleBuildPaths.find(buildPath => {
     const exists = fs.existsSync(buildPath);
-    console.log(`  ${exists ? '✅' : '❌'} ${buildPath}`);
+    console.log(`  ${exists ? '' : ''} ${buildPath}`);
     return exists;
   });
   
   if (reactBuildPath) {
-    console.log('✅ Serving React build from:', reactBuildPath);
+    console.log('Serving React build from:', reactBuildPath);
     
     // Serve static files from React build
     app.use(express.static(reactBuildPath));
@@ -188,16 +180,16 @@ if (ENV.nodeEnv === 'production') {
       res.sendFile(path.join(reactBuildPath, 'index.html'));
     });
   } else {
-    console.error('❌ React build folder not found!');
-    console.error('📂 Tried the following locations:');
+    console.error('React build folder not found!');
+    console.error(' Tried the following locations:');
     possibleBuildPaths.forEach(p => console.error(`   - ${p}`));
     
     // Try to list what's actually available
     try {
       const distContents = fs.readdirSync(path.join(__dirname, '..'));
-      console.log('📂 Contents of dist folder:', distContents);
+      console.log(' Contents of dist folder:', distContents);
     } catch (err) {
-      console.error('❌ Could not read dist folder:', err);
+      console.error('Could not read dist folder:', err);
     }
     
     // Fallback error page

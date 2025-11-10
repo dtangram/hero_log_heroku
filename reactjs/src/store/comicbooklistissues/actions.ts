@@ -32,7 +32,7 @@ interface ComicBook {
   type: string;
   comicBookCover: string;
   titleID: string;
-  coboTitleId?: string;  // ✅ Alternative field name from URL
+  coboTitleId?: string;  // Alternative field name from URL
 }
 
 interface ComicBookState {
@@ -86,7 +86,7 @@ const shouldFetchComicBook = (state: RootState, id: string): boolean => {
 };
 
 const validateComicBook = (comicBook: Partial<ComicBook>): void => {
-  console.log('🔍 Validating comic book:', comicBook);
+  console.log('Validating comic book:', comicBook);
   
   if (!comicBook.title?.trim()) {
     throw new Error('Comic book title is required');
@@ -95,10 +95,10 @@ const validateComicBook = (comicBook: Partial<ComicBook>): void => {
     throw new Error('Comic book type is required');
   }
   
-  // ✅ Check both titleID and coboTitleId
+  // Check both titleID and coboTitleId
   const titleId = comicBook.titleID || comicBook.coboTitleId;
   if (!titleId?.trim()) {
-    console.error('❌ Missing titleID. Received:', comicBook);
+    console.error('Missing titleID. Received:', comicBook);
     throw new Error('Title ID is required. Make sure coboTitleId is passed from the form.');
   }
 };
@@ -150,7 +150,7 @@ export const fetchComicBook = (id: string): APIAction => ({
 export const createComicBook = (comicbooklistissue: Omit<ComicBook, 'id'>): APIAction => {
   validateComicBook(comicbooklistissue);
   
-  // ✅ Use titleID or coboTitleId
+  // Use titleID or coboTitleId
   const titleID = comicbooklistissue.titleID || comicbooklistissue.coboTitleId;
   
   console.log('📝 Creating comic book with titleID:', titleID);
@@ -172,7 +172,7 @@ export const createComicBook = (comicbooklistissue: Omit<ComicBook, 'id'>): APIA
       year: comicbooklistissue.year,
       type: comicbooklistissue.type,
       comicBookCover: comicbooklistissue.comicBookCover,
-      titleID: titleID,  // ✅ Use the resolved titleID
+      titleID: titleID,  // Use the resolved titleID
     }),
     payload: { 
       titleID: titleID!,

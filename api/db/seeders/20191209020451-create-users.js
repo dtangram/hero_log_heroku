@@ -33,9 +33,9 @@ module.exports = {
         {}
       );
       
-      console.log('✅ User dtangram created');
+      console.log('User dtangram created');
     } else {
-      console.log('ℹ️  User dtangram already exists, skipping...');
+      console.log('  User dtangram already exists, skipping...');
     }
   },
 

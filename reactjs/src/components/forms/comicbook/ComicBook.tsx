@@ -110,7 +110,7 @@ const ComicBookComponent = ({
     console.log('  - Publisher Name:', publisherName);
     
     if (!coboTitleId && !id) {
-      console.warn('⚠️ Warning: coboTitleId is missing. Form may fail on submit.');
+      console.warn('Warning: coboTitleId is missing. Form may fail on submit.');
     }
   }, [id, coboTitleId, cbTitle, pubId, publisherName]);
 
@@ -226,7 +226,7 @@ const ComicBookComponent = ({
         throw new Error(`Upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
       }
 
-      console.log('✅ Image uploaded successfully:', url);
+      console.log('Image uploaded successfully:', url);
       setFormState(prev => ({ ...prev, comicBookCover: url }));
 
       // Show the image preview
@@ -234,7 +234,7 @@ const ComicBookComponent = ({
       if (figure) figure.style.display = 'inline-block';
       
     } catch (error) {
-      console.error('❌ Upload error:', error);
+      console.error('Upload error:', error);
       alert('Failed to upload image. Please try again.');
     } finally {
       setIsUploading(false);
@@ -262,7 +262,7 @@ const handleScanCover = useCallback(async () => {
       type: result.type || prev.type
     }));
 
-    alert(`✅ Cover scanned! Confidence: ${Math.round(result.confidence * 100)}%\n\nPlease review the auto-filled information.`);
+    alert(`Cover scanned! Confidence: ${Math.round(result.confidence * 100)}%\n\nPlease review the auto-filled information.`);
   }
 }, [formState.comicBookCover, scanCover]);
 
@@ -282,18 +282,18 @@ const handleScanCover = useCallback(async () => {
     // Validate titleID (only for new comics, not edits)
     if (!id && !coboTitleId) {
       errors.titleID = 'Comic book title ID is missing';
-      console.error('❌ Validation failed: Missing coboTitleId');
+      console.error('Validation failed: Missing coboTitleId');
       console.error('URL Params:', { id, coboTitleId, cbTitle, pubId, publisherName });
     }
 
     setFormErrors(errors);
 
     if (Object.keys(errors).length > 0) {
-      console.log('❌ Validation errors:', errors);
+      console.log('Validation errors:', errors);
       return false;
     }
 
-    console.log('✅ Validation passed');
+    console.log('Validation passed');
     return true;
   };
 
@@ -340,7 +340,7 @@ const handleScanCover = useCallback(async () => {
       }
       
       setSuccessMessage('success');
-      console.log('✅ Comic book saved successfully');
+      console.log('Comic book saved successfully');
       
       // Refetch the list and navigate back
       setTimeout(() => {
@@ -358,7 +358,7 @@ const handleScanCover = useCallback(async () => {
       }, REDIRECT_DELAY);
       
     } catch (error) {
-      console.error('❌ Submit error:', error);
+      console.error('Submit error:', error);
       setFormErrors({ 
         titleID: error instanceof Error ? error.message : 'Failed to save comic book' 
       });

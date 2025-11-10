@@ -27,9 +27,9 @@ module.exports = {
         ],
         {}
       );
-      console.log('✅ SaleList "Superman #75" created');
+      console.log('SaleList "Superman #75" created');
     } else {
-      console.log('ℹ️  SaleList "Superman #75" already exists, skipping...');
+      console.log('  SaleList "Superman #75" already exists, skipping...');
     }
   },
 

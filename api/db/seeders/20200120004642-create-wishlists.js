@@ -27,9 +27,9 @@ module.exports = {
         ],
         {}
       );
-      console.log('✅ WishList "Uncanny X-Men #141" created');
+      console.log('WishList "Uncanny X-Men #141" created');
     } else {
-      console.log('ℹ️  WishList "Uncanny X-Men #141" already exists, skipping...');
+      console.log('  WishList "Uncanny X-Men #141" already exists, skipping...');
     }
   },
 

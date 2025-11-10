@@ -12,9 +12,9 @@ import {
 import { validate } from '../controllers/validation';
 import db from '../models';
 
-// console.log('🔍 Available models:', Object.keys(db));
-// console.log('🔍 Users model:', db.Users);
-// console.log('🔍 Full db object:', db);
+// console.log('Available models:', Object.keys(db));
+// console.log('Users model:', db.Users);
+// console.log('Full db object:', db);
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -104,7 +104,7 @@ const validateUsername = (
 const findUserByUsername = async (
   username: string
 ): Promise<UserInstance | null> => {
-  // ✅ Access directly from db instead
+  // Access directly from db instead
   const Users = db.Users as UserModel;
   
   if (!Users) {
