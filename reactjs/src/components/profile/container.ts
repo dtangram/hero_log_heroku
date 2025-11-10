@@ -24,8 +24,6 @@ interface RootState {
 function mapStateToProps(state: RootState) {
   const { userProfile } = state;
   
-  console.log('📊 Profile container - userProfile state:', userProfile);
-  
   // Convert single user object to array for component compatibility
   const signups = userProfile?.data ? [userProfile.data] : [];
   

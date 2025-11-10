@@ -44,15 +44,9 @@ const WishList = ({
   // Get userId from localStorage or anonymous
   const userId = localStorage?.getItem('id') || getAnonymousUserId();
 
-  console.log('📊 WishList Component');
-  console.log('  - User ID:', userId);
-  console.log('  - Wishlists state keys:', Object.keys(wishlists));
-  console.log('  - Current wishlists data:', wishlists[userId]);
-
   // Fetch wish lists on mount
   useEffect(() => {
     window?.scrollTo?.({ top: 0, behavior: 'smooth' });
-    console.log('🔄 Fetching wishlists...');
     fetchWishlists?.();
   }, [fetchWishlists]);
 
@@ -86,18 +80,10 @@ const WishList = ({
   const currentWishlistsData = wishlists[userId] || {};
   const { allIds = [], byId = {}, isLoading = false } = currentWishlistsData;
 
-  console.log('📋 Wishlists data:', {
-    allIds,
-    byIdKeys: Object.keys(byId),
-    isLoading
-  });
-
   // Transform ids into array of wish list objects
   const currentWishlists = allIds
     .map(id => byId[id]?.data)
     .filter(Boolean) as WishListItem[];
-
-  console.log('📦 Current wishlists:', currentWishlists.length);
 
   // Early return for loading state
   if (isLoading) {

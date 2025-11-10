@@ -101,7 +101,7 @@ const ComicBookComponent = ({
 
   // Log route params for debugging
   useEffect(() => {
-    console.log('📋 Comic Book Form Loaded');
+    console.log('Comic Book Form Loaded');
     console.log('  - Edit Mode:', !!id);
     console.log('  - Comic ID:', id);
     console.log('  - Title ID:', coboTitleId);
@@ -119,7 +119,7 @@ const ComicBookComponent = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     if (id) {
-      console.log('📖 Fetching comic book:', id);
+      console.log('Fetching comic book:', id);
       fetchComicBook(id);
     }
 
@@ -129,7 +129,7 @@ const ComicBookComponent = ({
   // Populate form when editing
   useEffect(() => {
     if (comicbook && comicbook.id) {
-      console.log('✏️ Populating form with comic book data:', comicbook);
+      console.log('Populating form with comic book data:', comicbook);
       setFormState({
         title: comicbook.title || '',
         comicIssue: String(comicbook.comicIssue || ''),
@@ -207,7 +207,7 @@ const ComicBookComponent = ({
     try {
       if (coverButton) coverButton.disabled = true;
 
-      console.log('📤 Uploading image:', fileName);
+      console.log('Uploading image:', fileName);
 
       // Get signed URL from backend
       const response = await API.post('/s3/sign', { fileName, fileType });
@@ -301,7 +301,7 @@ const handleScanCover = useCallback(async () => {
     event.preventDefault();
 
     if (isSubmitting) {
-      console.log('⏳ Already submitting...');
+      console.log('Already submitting...');
       return;
     }
 
@@ -326,16 +326,16 @@ const handleScanCover = useCallback(async () => {
         comicBookTitle: cbTitle || '',
       };
 
-      console.log('📤 Submitting comic book:', comicBookData);
+      console.log('Submitting comic book:', comicBookData);
 
       if (id) {
-        console.log('✏️ Updating existing comic book:', id);
+        console.log('Updating existing comic book:', id);
         await updateComicBook({
           id,
           ...comicBookData,
         });
       } else {
-        console.log('➕ Creating new comic book');
+        console.log('Creating new comic book');
         await createComicBook(comicBookData);
       }
       
@@ -345,12 +345,12 @@ const handleScanCover = useCallback(async () => {
       // Refetch the list and navigate back
       setTimeout(() => {
         if (coboTitleId) {
-          console.log('🔄 Refetching comic books for title:', coboTitleId);
+          console.log('Refetching comic books for title:', coboTitleId);
           fetchComicBooks(coboTitleId);
         }
         
         const targetUrl = `/dashboard/${userId}/${pubId}/${publisherName}/${coboTitleId}/${cbTitle}/comicbooklistissues`;
-        console.log('🔄 Navigating to:', targetUrl);
+        console.log('Navigating to:', targetUrl);
         
         navigate(targetUrl, {
           state: { refetch: true, timestamp: Date.now() }

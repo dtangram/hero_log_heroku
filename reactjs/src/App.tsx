@@ -52,11 +52,11 @@ const App = () => {
       // Clear anonymous ID if it exists
       const anonymousId = localStorage.getItem('anonymousUserId');
       if (anonymousId) {
-        console.log('🗑️ Removing stale anonymous ID');
+        console.log('Removing stale anonymous ID');
         localStorage.removeItem('anonymousUserId');
       }
     } else {
-      console.log('📝 No authenticated user, creating anonymous ID');
+      console.log('No authenticated user, creating anonymous ID');
       // Only call this if NOT authenticated
       getAnonymousUserId();
     }

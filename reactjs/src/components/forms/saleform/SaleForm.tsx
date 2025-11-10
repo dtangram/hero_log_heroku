@@ -346,8 +346,6 @@ const SaleForm = ({ sale, fetchSale, createSale, updateSale }: SaleFormProps) =>
       saleUsersId: userId  // Changed from userId to saleUsersId
     };
 
-    console.log('📤 Submitting sale:', saleData);
-
     if (id) {
       updateSale({
         id,

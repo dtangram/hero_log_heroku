@@ -43,15 +43,9 @@ const Sale = ({
   // Get userId from localStorage or anonymous
   const userId = localStorage?.getItem('id') || getAnonymousUserId();
 
-  console.log('📊 Sale Component');
-  console.log('  - User ID:', userId);
-  console.log('  - Sales state keys:', Object.keys(sales));
-  console.log('  - Current sales data:', sales[userId]);
-
   // Fetch sales on mount
   useEffect(() => {
     window?.scrollTo?.({ top: 0, behavior: 'smooth' });
-    console.log('🔄 Fetching sales...');
     fetchSales?.();
   }, [fetchSales]);
 
@@ -85,18 +79,10 @@ const Sale = ({
   const currentSalesData = sales[userId] || {};
   const { allIds = [], byId = {}, isLoading = false } = currentSalesData;
 
-  console.log('📋 Sales data:', {
-    allIds,
-    byIdKeys: Object.keys(byId),
-    isLoading
-  });
-
   // Transform ids into array of sale objects
   const currentSales = allIds
     .map(id => byId[id]?.data)
     .filter(Boolean) as SaleItem[];
-
-  console.log('📦 Current sales:', currentSales.length);
 
   // Early return for loading state
   if (isLoading) {

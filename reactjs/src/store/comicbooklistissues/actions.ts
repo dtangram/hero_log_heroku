@@ -86,8 +86,6 @@ const shouldFetchComicBook = (state: RootState, id: string): boolean => {
 };
 
 const validateComicBook = (comicBook: Partial<ComicBook>): void => {
-  console.log('Validating comic book:', comicBook);
-  
   if (!comicBook.title?.trim()) {
     throw new Error('Comic book title is required');
   }
@@ -152,8 +150,6 @@ export const createComicBook = (comicbooklistissue: Omit<ComicBook, 'id'>): APIA
   
   // Use titleID or coboTitleId
   const titleID = comicbooklistissue.titleID || comicbooklistissue.coboTitleId;
-  
-  console.log('📝 Creating comic book with titleID:', titleID);
   
   return {
     types: [

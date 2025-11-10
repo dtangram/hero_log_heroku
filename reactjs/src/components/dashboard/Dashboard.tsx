@@ -37,7 +37,7 @@ const Dashboard = ({
     
     // Get current user ID (authenticated or anonymous)
     const userId = localStorage.getItem('id') || localStorage.getItem('anonymousUserId');
-    console.log('📊 Dashboard fetching for user:', userId);
+    console.log('Dashboard fetching for user:', userId);
     
     // Pass userId to fetchPublishers so it knows which user's data to get
     if (userId) {
